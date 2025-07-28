@@ -1,0 +1,2731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="referrer" content="no-referrer">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link href="https://g.csdnimg.cn/static/logo/favicon32.ico" rel="shortcut icon" type="image/x-icon"/>
+    <title>非参数统计课程笔记4📒</title>
+    <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css" rel="stylesheet">
+    <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-704d5b9767.css" rel="stylesheet">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview {
+            display: none
+        }
+
+        :root {
+            --warning-red: #ff0000;
+        }
+
+        .dxn_tip {
+            color: var(--warning-red);
+            animation: blink 1.5s ease-in-out infinite;
+            text-align: center;
+            padding: 15px 20px;
+            margin: 20px 0;
+            background: rgba(255, 0, 0, 0.08);
+            border-radius: 4px;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                max-width: 100%;
+                padding: 10px; /* 可选：减少移动端的内边距 */
+            }
+
+            .container img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="blog-content-box">
+<div class="article-header-box">
+<div class="article-header">
+<div class="article-title-box">
+<h1 class="title-article" id="articleContentId">【非参数统计04】多组数据位置推断：Kruskal-Wallis、Jonckheere-Terpstra、Friedman、调整秩和检验、Cochran、Durbin、FDR、Bon、BH、HC</h1>
+</div>
+<div class="article-info-box">
+
+<div class="article-bar-top-box">
+
+
+</div>
+
+<div class="slide-content-box">
+<div class="article-copyright">
+
+<div class="article-source-link">
+                            原文链接：<a href="https://blog.csdn.net/weixin_45632492/article/details/111656968" target="_blank">https://blog.csdn.net/weixin_45632492/article/details/111656968</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="" id="blogHuaweiyunAdvert"></div>
+
+<article class="baidu_pl">
+<div class="article_content clearfix" id="article_content">
+
+
+<div class="markdown_views prism-atom-one-dark" id="content_views">
+<svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+<path d="M5,0 0,2.5 5,5z" id="raphael-marker-block" stroke-linecap="round" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+</svg>
+<p></p>
+<div class="toc">
+<h4>目录导引</h4>
+<ul><li><a href="#4__5">4 多组数据位置推断</a></li><li><ul><li><a href="#41__6">4.1 方差分析与实验设计</a></li><li><ul><li><a href="#411__7">4.1.1 方差分析回顾</a></li><li><a href="#412__9">4.1.2 实验设计及类别</a></li></ul>
+</li><li><a href="#42__19">4.2 多重检验问题</a></li><li><ul><li><a href="#421_Bonferroni__24">4.2.1 Bonferroni 矫正法</a></li><li><a href="#422_BHFDR__29">4.2.2 BH-FDR 控制法</a></li><li><a href="#423_HC_37">4.2.3 H-C高阶鉴定法</a></li></ul>
+</li><li><a href="#43__42">4.3 完全随机设计</a></li><li><ul><li><a href="#431__43">4.3.1 数据形式</a></li><li><a href="#432_KruskalWallis__45">4.3.2 Kruskal-Wallis 单因素方差分析</a></li><li><a href="#433_Dunn__47">4.3.3 两两差异的Dunn 检验</a></li><li><a href="#434_JonckheereTerpstra__49">4.3.4 Jonckheere-Terpstra 趋势性检验</a></li></ul>
+</li><li><a href="#44__51">4.4 完全随机区组设计</a></li><li><ul><li><a href="#441__52">4.4.1 数据形式</a></li><li><a href="#442_Freidman__58">4.4.2 Freidman 秩方差分析法</a></li><li><a href="#443_HollanderWolfe__60">4.4.3 Hollander-Wolfe 两处理间比较</a></li><li><a href="#444__62">4.4.4 随机区组数据的调整秩和检验</a></li><li><a href="#445__Cochran__78">4.4.5 二值变量下的 Cochran 检验</a></li></ul>
+</li><li><a href="#45__105">4.5 均衡的不完全随机区组设计</a></li><li><ul><li><a href="#451__106">4.5.1 数据类型</a></li><li><a href="#452_Durbin__124">4.5.2 Durbin 不完全区组分析法</a></li></ul>
+</li></ul>
+</li></ul>
+</div>
+<br/> 这一个系列的笔记和整理希望可以帮助到正在学习非参数统计的同学。我会慢慢更新各个章节的内容。
+<p></p>
+<p>这一章关于<strong>多组数据</strong>的<strong>位置推断</strong>问题内容较多</p>
+<h2><a id="4__5"></a>4 多组数据位置推断</h2>
+<h3><a id="41__6"></a>4.1 方差分析与实验设计</h3>
+<h4><a id="411__7"></a>4.1.1 方差分析回顾</h4>
+<p>可以参考我写的另外一篇博文：<a href="https://blog.csdn.net/weixin_45632492/article/details/109680442">统计学中的各种方差分解</a></p>
+<h4><a id="412__9"></a>4.1.2 实验设计及类别</h4>
+<p>实验三原则</p>
+<ul><li>重复性原则</li><li>随机性原则</li><li>适宜性原则</li></ul>
+<p>重要组成部分：</p>
+<ul><li>因素：处理就是主因素的不同状态</li><li>观测：对不同处理下的重复实验</li><li>区组：当实验材料不同时候的控制变量</li></ul>
+<h3><a id="42__19"></a>4.2 多重检验问题</h3>
+<p>考虑<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        m
+       
+      
+      
+       m
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault">m</span></span></span></span></span>个假设检验，比如检验<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        m
+       
+      
+      
+       m
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault">m</span></span></span></span></span>个基因是否有效<br/> <span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          H
+         
+         
+          0
+         
+        
+        
+         :
+        
+        
+         
+          μ
+         
+         
+          j
+         
+        
+        
+         =
+        
+        
+         0
+        
+        
+         ↔
+        
+        
+         
+          H
+         
+         
+          1
+         
+        
+        
+         :
+        
+        
+         
+          μ
+         
+         
+          j
+         
+        
+        
+         ≠
+        
+        
+         0
+        
+        
+         ,
+        
+        
+         j
+        
+        
+         =
+        
+        
+         1
+        
+        
+         ,
+        
+        
+         2
+        
+        
+         ,
+        
+        
+         .
+        
+        
+         .
+        
+        
+         .
+        
+        
+         ,
+        
+        
+         m
+        
+       
+       
+         H_0: \mu_j=0 \leftrightarrow H_1: \mu_j\neq 0,j=1,2,...,m 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.716668em; vertical-align: -0.286108em;"></span><span class="mord"><span class="mord mathdefault">μ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.64444em; vertical-align: 0em;"></span><span class="mord">0</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">↔</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.980548em; vertical-align: -0.286108em;"></span><span class="mord"><span class="mord mathdefault">μ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel"><span class="mrel"><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.69444em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="rlap"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="inner"><span class="mrel"></span></span><span class="fix"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.19444em;"><span class=""></span></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.85396em; vertical-align: -0.19444em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault" style="margin-right: 0.05724em;">j</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.83888em; vertical-align: -0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault">m</span></span></span></span></span></span></p>
+<h4><a id="421_Bonferroni__24"></a>4.2.1 Bonferroni 矫正法</h4>
+<p><code>Bonferroni</code>检验原理如下：</p>
+<ul><li>假设总检验的显著性水平为<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         α
+        
+       
+       
+        \alpha
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.0037em;">α</span></span></span></span></span>，检验个数为<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         m
+        
+       
+       
+        m
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault">m</span></span></span></span></span>，<code>Bonferroni</code>的目标是这么多个检验中出现错误发现<code>False Discover</code>的概率不超过<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         α
+        
+       
+       
+        \alpha
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.0037em;">α</span></span></span></span></span></li><li>对于每一个单个的检验，设置固定显著性水平<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          α
+         
+         
+          m
+         
+        
+       
+       
+        \frac{\alpha}{m}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.04039em; vertical-align: -0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.695392em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.0037em;">α</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></li><li>用<code>FWER</code>（Family-wise error rate）表述就是<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         P
+        
+        
+         (
+        
+        
+         V
+        
+        
+         ⩽
+        
+        
+         1
+        
+        
+         )
+        
+        
+         ⩽
+        
+        
+         α
+        
+       
+       
+        P(V\leqslant1)\leqslant \alpha
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathdefault" style="margin-right: 0.13889em;">P</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right: 0.22222em;">V</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel amsrm">⩽</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel amsrm">⩽</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.0037em;">α</span></span></span></span></span>，这是最狠最保守的检验</li></ul>
+<h4><a id="422_BHFDR__29"></a>4.2.2 BH-FDR 控制法</h4>
+<p>如果我们只是对<code>FDR</code>进行控制，那么会比<code>Bonferroni</code>开放很多，更多小的差异可以被多重检验所识别出来。</p>
+<p><strong>做法</strong></p>
+<ul><li>我们对于多重检验得到的<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         p
+        
+       
+       
+        p
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord mathdefault">p</span></span></span></span></span>值进行排序，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          p
+         
+         
+          
+           (
+          
+          
+           1
+          
+          
+           )
+          
+         
+        
+        
+         ,
+        
+        
+         
+          p
+         
+         
+          
+           (
+          
+          
+           2
+          
+          
+           )
+          
+         
+        
+        
+         ,
+        
+        
+         .
+        
+        
+         .
+        
+        
+         .
+        
+        
+         ,
+        
+        
+         
+          p
+         
+         
+          
+           (
+          
+          
+           m
+          
+          
+           )
+          
+         
+        
+       
+       
+        p_{(1)},p_{(2)},...,p_{(m)}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.78576em; vertical-align: -0.3552em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3448em;"><span class="" style="top: -2.5198em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.3552em;"><span class=""></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3448em;"><span class="" style="top: -2.5198em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">2</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.3552em;"><span class=""></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3448em;"><span class="" style="top: -2.5198em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight">m</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.3552em;"><span class=""></span></span></span></span></span></span></span></span></span></span></li><li>根据设定的显著性水平构造一列显著性水平向量，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         {
+        
+        
+         
+          i
+         
+         
+          m
+         
+        
+        
+         α
+        
+        
+         
+          }
+         
+         
+          
+           i
+          
+          
+           =
+          
+          
+           1
+          
+         
+         
+          m
+         
+        
+       
+       
+        \{\frac{i}{m}\alpha\}_{i=1}^m
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.20066em; vertical-align: -0.345em;"></span><span class="mopen">{<!-- --></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.855664em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathdefault" style="margin-right: 0.0037em;">α</span><span class="mclose"><span class="mclose">}</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.664392em;"><span class="" style="top: -2.44134em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.258664em;"><span class=""></span></span></span></span></span></span></span></span></span></span>，跟上面的<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         p
+        
+       
+       
+        p
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord mathdefault">p</span></span></span></span></span>向量对比</li><li>找到<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          
+           max
+          
+          
+           ⁡
+          
+         
+         
+          k
+         
+        
+        
+         [
+        
+        
+         
+          p
+         
+         
+          
+           (
+          
+          
+           k
+          
+          
+           )
+          
+         
+        
+        
+         ⩽
+        
+        
+         
+          i
+         
+         
+          m
+         
+        
+        
+         α
+        
+        
+         ]
+        
+       
+       
+        \max\limits_{k} [p_{(k)}\leqslant \frac{i}{m}\alpha]
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.50211em; vertical-align: -0.752108em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.43056em;"><span class="" style="top: -2.04789em; margin-left: 0em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span><span class="" style="top: -2.7em;"><span class="pstrut" style="height: 2.7em;"></span><span class=""><span class="mop">max</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.752108em;"><span class=""></span></span></span></span></span><span class="mopen">[</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3448em;"><span class="" style="top: -2.5198em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.3552em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel amsrm">⩽</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 1.20066em; vertical-align: -0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.855664em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathdefault" style="margin-right: 0.0037em;">α</span><span class="mclose">]</span></span></span></span></span></li><li>拒绝调次序在<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         k
+        
+       
+       
+        k
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.69444em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span></span></span></span></span>前的所有原假设，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          H
+         
+         
+          
+           (
+          
+          
+           1
+          
+          
+           )
+          
+         
+        
+        
+         ,
+        
+        
+         
+          H
+         
+         
+          
+           (
+          
+          
+           2
+          
+          
+           )
+          
+         
+        
+        
+         ,
+        
+        
+         .
+        
+        
+         .
+        
+        
+         .
+        
+        
+         ,
+        
+        
+         
+          H
+         
+         
+          
+           (
+          
+          
+           k
+          
+          
+           )
+          
+         
+        
+       
+       
+        H_{(1)},H_{(2)},...,H_{(k)}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.03853em; vertical-align: -0.3552em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3448em;"><span class="" style="top: -2.5198em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.3552em;"><span class=""></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3448em;"><span class="" style="top: -2.5198em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">2</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.3552em;"><span class=""></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.3448em;"><span class="" style="top: -2.5198em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.3552em;"><span class=""></span></span></span></span></span></span></span></span></span></span></li></ul>
+<h4><a id="423_HC_37"></a>4.2.3 H-C高阶鉴定法</h4>
+<p><strong>应用背景</strong><br/> 当检验中存在很多噪声的时候，比如一共有100个检验，有90个都是显然不怎么需要检验，其<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         p
+        
+        
+         i
+        
+       
+       
+        &gt;
+       
+       
+        0.2
+       
+      
+      
+       p_i &gt; 0.2
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.73354em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.64444em; vertical-align: 0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">2</span></span></span></span></span>，这在应用<code>FDR</code>的时候会使得检验标准变严苛。因为显著性水平向量<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         i
+        
+        
+         m
+        
+       
+       
+        α
+       
+      
+      
+       \frac{i}{m}\alpha
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.20066em; vertical-align: -0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.855664em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathdefault" style="margin-right: 0.0037em;">α</span></span></span></span></span>被不必要的大<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        m
+       
+      
+      
+       m
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault">m</span></span></span></span></span>压缩，如果跟<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        m
+       
+       
+        =
+       
+       
+        20
+       
+      
+      
+       m=20
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.64444em; vertical-align: 0em;"></span><span class="mord">2</span><span class="mord">0</span></span></span></span></span>相比，只保留10个<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         p
+        
+        
+         i
+        
+       
+      
+      
+       p_i
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span>较大的检验在这里头。</p>
+<p>换句话说，我们需要一个更强的能在众多噪声中发现更多弱信号的检验，<code>H-C高阶鉴定法</code>表现不错。</p>
+<h3><a id="43__42"></a>4.3 完全随机设计</h3>
+<h4><a id="431__43"></a>4.3.1 数据形式</h4>
+<p>完全随机区组设计的每一个处理下的观测数不要求一样，这与完全区组设计不同。</p>
+<h4><a id="432_KruskalWallis__45"></a>4.3.2 Kruskal-Wallis 单因素方差分析</h4>
+<p><code>Kruskal-Wallis</code>是<code>Wilcoxon-Mann-Whitney</code>从两样本到多样本上的一个拓展。</p>
+<h4><a id="433_Dunn__47"></a>4.3.3 两两差异的Dunn 检验</h4>
+<p><code>Kruskal-Wallis</code>检测到差异之后通过<code>Dunn</code>检验来判断差异来源。</p>
+<h4><a id="434_JonckheereTerpstra__49"></a>4.3.4 Jonckheere-Terpstra 趋势性检验</h4>
+<p>处理的排序和<code>J-T</code>检出结果有关，处理潜在水平乱序的不行。</p>
+<h3><a id="44__51"></a>4.4 完全随机区组设计</h3>
+<h4><a id="441__52"></a>4.4.1 数据形式</h4>
+<p>在完全随机设计的单因素基础上，增加了一个区组因素，这是由于实验材料的异质性使得实验设计中控制变量的变得必要。</p>
+<blockquote>
+<p>Chai: <strong>区组是代替了观测的存在</strong>，观测是广泛的无限制的，<strong>区组</strong>是控制变量的观测。</p>
+</blockquote>
+<p>同时，我们要求每一个处理都出现在每一个区组当中。</p>
+<h4><a id="442_Freidman__58"></a>4.4.2 Freidman 秩方差分析法</h4>
+<p>由于区组影响，不同区组的数据放在一起算秩没有意义，组内算秩。</p>
+<h4><a id="443_HollanderWolfe__60"></a>4.4.3 Hollander-Wolfe 两处理间比较</h4>
+<p>当秩方差分析结果表明样本之间存在差异的时候，可以使用<code>Hollander-Wolfe</code>进行两两样本对比，找到差异来源，跟<code>Dunn</code>在<code>Kruskal-Wallis</code>之后的搞法一样。</p>
+<h4><a id="444__62"></a>4.4.4 随机区组数据的调整秩和检验</h4>
+<p>当随机区组设计的<strong>区组数量较大或者处理组数较小</strong>（如10个区组，4个处理），<code>Friedman</code>检验的效果就不是很好了，因为<code>Friedman</code>检验的编秩只在每一个区组内进行，仅限于区组内的效应，不同区组间对比没有意义。而<strong>多区组少处理</strong>的情况会导致每一个处理的秩和差异不明显。</p>
+<p>这里，我们考虑消除区组之间的差异性。<br/> 采用<strong>调整秩和检验</strong><code>aligned ranks test</code>，也称<code>H-L检验</code></p>
+<p><strong>检验及调整步骤</strong></p>
+<ul><li>对每一个区组计算某一位置，如均值、中位数，的估计值</li><li>该区组内每一个观测值减去均值，得到<strong>调整后的观测值</strong><code>aligned observation</code></li><li>对调整后的观测值，像<code>Kruskal-Wallis</code>检验一样，对全部数据混合求秩</li><li>用<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          R
+         
+         
+          
+           i
+          
+          
+           j
+          
+         
+        
+       
+       
+        R_{ij}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.969438em; vertical-align: -0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: -0.00773em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span></span></span>表示第<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         i
+        
+       
+       
+        i
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.65952em; vertical-align: 0em;"></span><span class="mord mathdefault">i</span></span></span></span></span>个区组第<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         j
+        
+       
+       
+        j
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.85396em; vertical-align: -0.19444em;"></span><span class="mord mathdefault" style="margin-right: 0.05724em;">j</span></span></span></span></span>个处理的秩，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          
+           R
+          
+          
+           ˉ
+          
+         
+         
+          
+           .
+          
+          
+           j
+          
+         
+        
+       
+       
+        \bar R_{.j}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.10622em; vertical-align: -0.286108em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.82011em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord mathdefault" style="margin-right: 0.00773em;">R</span></span><span class="" style="top: -3.25233em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.16666em;">ˉ</span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: -0.00773em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span></span></span>表示第<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         j
+        
+       
+       
+        j
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.85396em; vertical-align: -0.19444em;"></span><span class="mord mathdefault" style="margin-right: 0.05724em;">j</span></span></span></span></span>个区组的平均秩</li><li>计算统计量<span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+      
+       
+        
+         
+          
+           Q
+          
+          
+           ~
+          
+         
+         
+          =
+         
+         
+          
+           
+            (
+           
+           
+            k
+           
+           
+            −
+           
+           
+            1
+           
+           
+            )
+           
+           
+            
+             b
+            
+            
+             2
+            
+           
+          
+          
+           
+            
+             ∑
+            
+            
+             
+              i
+             
+             
+              ,
+             
+             
+              j
+             
+            
+           
+           
+            (
+           
+           
+            
+             R
+            
+            
+             
+              i
+             
+             
+              ,
+             
+             
+              j
+             
+            
+           
+           
+            −
+           
+           
+            
+             
+              R
+             
+             
+              ˉ
+             
+            
+            
+             
+              i
+             
+             
+              .
+             
+            
+           
+           
+            
+             )
+            
+            
+             2
+            
+           
+          
+         
+         
+          
+           ∑
+          
+          
+           
+            j
+           
+           
+            =
+           
+           
+            1
+           
+          
+          
+           k
+          
+         
+         
+          (
+         
+         
+          
+           
+            R
+           
+           
+            ˉ
+           
+          
+          
+           
+            .
+           
+           
+            j
+           
+          
+         
+         
+          −
+         
+         
+          
+           
+            k
+           
+           
+            b
+           
+           
+            +
+           
+           
+            1
+           
+          
+          
+           2
+          
+         
+         
+          
+           )
+          
+          
+           2
+          
+         
+         
+          
+           
+            ∼
+           
+          
+          
+           
+            L
+           
+           
+            ,
+           
+           
+            
+             H
+            
+            
+             0
+            
+           
+          
+         
+         
+          
+           χ
+          
+          
+           
+            (
+           
+           
+            k
+           
+           
+            −
+           
+           
+            1
+           
+           
+            )
+           
+          
+          
+           2
+          
+         
+        
+        
+         \tilde Q=\frac{(k-1)b^2}{\sum_{i,j}(R_{i,j}-\bar R_{i.})^2}\sum_{j=1}^k (\bar R_{.j}-\frac{kb+1}{2})^2 \stackrel{\mathcal{L},H_0}{\sim} \chi^2_{(k-1)}
+        
+       
+      </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.11463em; vertical-align: -0.19444em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.92019em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord mathdefault">Q</span></span><span class="" style="top: -3.60233em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.16666em;">~</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.19444em;"><span class=""></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 3.24989em; vertical-align: -1.41378em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.49111em;"><span class="" style="top: -2.28989em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mop"><span class="mop op-symbol small-op" style="position: relative; top: -0.000005em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.161954em;"><span class="" style="top: -2.40029em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.435818em;"><span class=""></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: -0.00773em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.82011em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord mathdefault" style="margin-right: 0.00773em;">R</span></span><span class="" style="top: -3.25233em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.16666em;">ˉ</span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: -0.00773em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.740108em;"><span class="" style="top: -2.989em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.14593em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.83611em;"><span class="" style="top: -1.87233em; margin-left: 0em;"><span class="pstrut" style="height: 3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span class="" style="top: -3.05001em;"><span class="pstrut" style="height: 3.05em;"></span><span class=""><span class="mop op-symbol large-op">∑</span></span></span><span class="" style="top: -4.30001em; margin-left: 0em;"><span class="pstrut" style="height: 3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.41378em;"><span class=""></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.82011em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord mathdefault" style="margin-right: 0.00773em;">R</span></span><span class="" style="top: -3.25233em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.16666em;">ˉ</span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: -0.00773em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 2.05744em; vertical-align: -0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.37144em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">2</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.686em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.864108em;"><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel"><span class="mop op-limits"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 1.19231em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class=""><span class="mop">∼</span></span></span><span class="" style="top: -3.61398em; margin-left: 0em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathcal mtight">L</span></span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.317314em;"><span class="" style="top: -2.357em; margin-left: -0.08125em; margin-right: 0.0714286em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.143em;"><span class=""></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 1.31111em; vertical-align: -0.447em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.864108em;"><span class="" style="top: -2.428em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.447em;"><span class=""></span></span></span></span></span></span></span></span></span></span></span></li></ul>
+<p><strong>有结情况</strong><br/> 对统计量进行调整</p>
+<h4><a id="445__Cochran__78"></a>4.4.5 二值变量下的 Cochran 检验</h4>
+<p>有的时候，数据类型为<code>有-无</code>,<code>0-1</code>,<code>是-否</code>，这种情况下秩的计算没有意义，可以使用<code>Cochran</code>检验.</p>
+<p><strong>假设检验问题</strong><br/> <span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          H
+         
+         
+          0
+         
+        
+        
+         :
+        
+        
+         k
+        
+        
+         个
+        
+        
+         总
+        
+        
+         体
+        
+        
+         分
+        
+        
+         布
+        
+        
+         相
+        
+        
+         同
+        
+        
+         （
+        
+        
+         或
+        
+        
+         各
+        
+        
+         处
+        
+        
+         理
+        
+        
+         发
+        
+        
+         生
+        
+        
+         的
+        
+        
+         概
+        
+        
+         率
+        
+        
+         相
+        
+        
+         等
+        
+        
+         ）
+        
+        
+        
+         
+          H
+         
+         
+          1
+         
+        
+        
+         :
+        
+        
+         k
+        
+        
+         个
+        
+        
+         总
+        
+        
+         体
+        
+        
+         分
+        
+        
+         布
+        
+        
+         不
+        
+        
+         同
+        
+        
+         （
+        
+        
+         或
+        
+        
+         各
+        
+        
+         处
+        
+        
+         理
+        
+        
+         发
+        
+        
+         生
+        
+        
+         的
+        
+        
+         概
+        
+        
+         率
+        
+        
+         不
+        
+        
+         等
+        
+        
+         ）
+        
+       
+       
+         H_0: k个总体分布相同（或各处理发生的概率相等）\\ H_1: k个总体分布不同（或各处理发生的概率不等） 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.69444em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mord cjk_fallback">个</span><span class="mord cjk_fallback">总</span><span class="mord cjk_fallback">体</span><span class="mord cjk_fallback">分</span><span class="mord cjk_fallback">布</span><span class="mord cjk_fallback">相</span><span class="mord cjk_fallback">同</span><span class="mord cjk_fallback">（</span><span class="mord cjk_fallback">或</span><span class="mord cjk_fallback">各</span><span class="mord cjk_fallback">处</span><span class="mord cjk_fallback">理</span><span class="mord cjk_fallback">发</span><span class="mord cjk_fallback">生</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">概</span><span class="mord cjk_fallback">率</span><span class="mord cjk_fallback">相</span><span class="mord cjk_fallback">等</span><span class="mord cjk_fallback">）</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.69444em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mord cjk_fallback">个</span><span class="mord cjk_fallback">总</span><span class="mord cjk_fallback">体</span><span class="mord cjk_fallback">分</span><span class="mord cjk_fallback">布</span><span class="mord cjk_fallback">不</span><span class="mord cjk_fallback">同</span><span class="mord cjk_fallback">（</span><span class="mord cjk_fallback">或</span><span class="mord cjk_fallback">各</span><span class="mord cjk_fallback">处</span><span class="mord cjk_fallback">理</span><span class="mord cjk_fallback">发</span><span class="mord cjk_fallback">生</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">概</span><span class="mord cjk_fallback">率</span><span class="mord cjk_fallback">不</span><span class="mord cjk_fallback">等</span><span class="mord cjk_fallback">）</span></span></span></span></span></span><br/> <mark><strong>小心这张表格！正常情况都是区组在横轴，处理在纵轴！！</strong></mark></p>
+<table><thead><tr><th></th><th>处理1</th><th>处理2</th><th>…</th><th>处理k</th><th>sum</th></tr></thead><tbody><tr><td>区组1</td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            11
+           
+          
+         
+         
+          n_{11}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            12
+           
+          
+         
+         
+          n_{12}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td>…</td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             1
+            
+            
+             k
+            
+           
+          
+         
+         
+          n_{1k}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            1.
+           
+          
+         
+         
+          n_{1.}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td></tr><tr><td>区组2</td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            21
+           
+          
+         
+         
+          n_{21}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            22
+           
+          
+         
+         
+          n_{22}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td>…</td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             2
+            
+            
+             k
+            
+           
+          
+         
+         
+          n_{2k}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            2.
+           
+          
+         
+         
+          n_{2.}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td></tr><tr><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td><td>…</td></tr><tr><td>区组b</td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             b
+            
+            
+             1
+            
+           
+          
+         
+         
+          n_{b1}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">b</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             b
+            
+            
+             2
+            
+           
+          
+         
+         
+          n_{b2}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">b</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td>…</td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             b
+            
+            
+             k
+            
+           
+          
+         
+         
+          n_{bk}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">b</span><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             b
+            
+            
+             .
+            
+           
+          
+         
+         
+          n_{b.}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">b</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td></tr><tr><td>sum</td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             .
+            
+            
+             1
+            
+           
+          
+         
+         
+          n_{.1}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             .
+            
+            
+             2
+            
+           
+          
+         
+         
+          n_{.2}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td>…</td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             .
+            
+            
+             k
+            
+           
+          
+         
+         
+          n_{.k}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             .
+            
+            
+             .
+            
+           
+          
+         
+         
+          n_{..}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td></tr></tbody></table>
+<p>其中<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         n
+        
+        
+         
+          i
+         
+         
+          j
+         
+        
+       
+       
+        ∈
+       
+       
+        {
+       
+       
+        0
+       
+       
+        ,
+       
+       
+        1
+       
+       
+        }
+       
+      
+      
+       n_{ij}\in \{0,1\}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.825208em; vertical-align: -0.286108em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mopen">{<!-- --></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">1</span><span class="mclose">}</span></span></span></span></span>为计数数据，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         H
+        
+        
+         0
+        
+       
+      
+      
+       H_0
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span>成立时，同一区组内所有处理下的发生概率相同<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         p
+        
+        
+         
+          i
+         
+         
+          1
+         
+        
+       
+       
+        =
+       
+       
+        
+         p
+        
+        
+         
+          i
+         
+         
+          2
+         
+        
+       
+       
+        =
+       
+       
+        .
+       
+       
+        .
+       
+       
+        .
+       
+       
+        =
+       
+       
+        
+         p
+        
+        
+         
+          i
+         
+         
+          k
+         
+        
+       
+       
+        =
+       
+       
+        
+         p
+        
+        
+         
+          i
+         
+         
+          .
+         
+        
+       
+      
+      
+       p_{i1}=p_{i2}=...=p_{ik}=p_{i.}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.36687em; vertical-align: 0em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></p>
+<p>经过一通复杂的操作，可以得到这样一个<code>Cochran Q值</code><br/> <span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          
+           
+            Q
+           
+          
+         
+         
+          
+           
+            
+            
+             =
+            
+            
+             
+              ∑
+             
+             
+              
+               j
+              
+              
+               =
+              
+              
+               1
+              
+             
+             
+              k
+             
+            
+            
+             
+              
+               (
+              
+              
+               
+                n
+               
+               
+                
+                 .
+                
+                
+                 j
+                
+               
+              
+              
+               −
+              
+              
+               
+                N
+               
+               
+                k
+               
+              
+              
+               
+                )
+               
+               
+                2
+               
+              
+             
+             
+              
+               ∑
+              
+              
+               
+                n
+               
+               
+                
+                 i
+                
+                
+                 .
+                
+               
+              
+              
+               (
+              
+              
+               k
+              
+              
+               −
+              
+              
+               
+                n
+               
+               
+                
+                 i
+                
+                
+                 .
+                
+               
+              
+              
+               )
+              
+              
+               /
+              
+              
+               [
+              
+              
+               k
+              
+              
+               (
+              
+              
+               k
+              
+              
+               −
+              
+              
+               1
+              
+              
+               )
+              
+              
+               ]
+              
+             
+            
+           
+          
+         
+        
+        
+         
+          
+           
+          
+         
+         
+          
+           
+            
+            
+             =
+            
+            
+             
+              
+               (
+              
+              
+               k
+              
+              
+               −
+              
+              
+               1
+              
+              
+               )
+              
+              
+               [
+              
+              
+               ∑
+              
+              
+               
+                n
+               
+               
+                
+                 .
+                
+                
+                 j
+                
+               
+               
+                2
+               
+              
+              
+               −
+              
+              
+               (
+              
+              
+               ∑
+              
+              
+               
+                n
+               
+               
+                
+                 .
+                
+                
+                 j
+                
+               
+              
+              
+               
+                )
+               
+               
+                2
+               
+              
+              
+               /
+              
+              
+               k
+              
+              
+               ]
+              
+             
+             
+              
+               ∑
+              
+              
+               
+                n
+               
+               
+                
+                 i
+                
+                
+                 .
+                
+               
+              
+              
+               −
+              
+              
+               ∑
+              
+              
+               
+                n
+               
+               
+                
+                 i
+                
+                
+                 .
+                
+               
+               
+                2
+               
+              
+              
+               /
+              
+              
+               k
+              
+             
+            
+           
+          
+         
+        
+        
+         
+          
+           
+            Q
+           
+          
+         
+         
+          
+           
+            
+            
+             
+              
+               ∼
+              
+             
+             
+              
+               L
+              
+              
+               ,
+              
+              
+               
+                H
+               
+               
+                0
+               
+              
+             
+            
+            
+             
+              χ
+             
+             
+              
+               (
+              
+              
+               k
+              
+              
+               −
+              
+              
+               1
+              
+              
+               )
+              
+             
+             
+              2
+             
+            
+           
+          
+         
+        
+       
+       
+         \begin{aligned} Q&amp;=\sum_{j=1}^k \frac{(n_{.j}-\frac{N}{k})^2}{\sum n_{i.}(k-n_{i.})/[k(k-1)]} \\ &amp;= \frac{(k-1)[\sum n_{.j}^2-(\sum n_{.j})^2/k]}{\sum n_{i.}-\sum n_{i.}^2/k} \\ Q &amp;\stackrel{\mathcal{L},H_0}{\sim} \chi^2_{(k-1)} \end{aligned} 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 8.35094em; vertical-align: -3.92547em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 4.42547em;"><span class="" style="top: -6.42547em;"><span class="pstrut" style="height: 3.83611em;"></span><span class="mord"><span class="mord mathdefault">Q</span></span></span><span class="" style="top: -3.11281em;"><span class="pstrut" style="height: 3.83611em;"></span><span class="mord"></span></span><span class="" style="top: -0.657641em;"><span class="pstrut" style="height: 3.83611em;"></span><span class="mord"><span class="mord mathdefault">Q</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 3.92547em;"><span class=""></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 4.42547em;"><span class="" style="top: -6.42547em;"><span class="pstrut" style="height: 3.83611em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.83611em;"><span class="" style="top: -1.87233em; margin-left: 0em;"><span class="pstrut" style="height: 3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span class="" style="top: -3.05001em;"><span class="pstrut" style="height: 3.05em;"></span><span class=""><span class="mop op-symbol large-op">∑</span></span></span><span class="" style="top: -4.30001em; margin-left: 0em;"><span class="pstrut" style="height: 3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.41378em;"><span class=""></span></span></span></span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.60733em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mop op-symbol small-op" style="position: relative; top: -0.000005em;">∑</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mclose">)</span><span class="mord">/</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mclose">]</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.735em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.872331em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.10903em;">N</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.93601em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span><span class="" style="top: -3.11281em;"><span class="pstrut" style="height: 3.83611em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.59888em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mop op-symbol small-op" style="position: relative; top: -0.000005em;">∑</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mop op-symbol small-op" style="position: relative; top: -0.000005em;">∑</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.795908em;"><span class="" style="top: -2.42314em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mtight">.</span></span></span></span><span class="" style="top: -3.0448em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.276864em;"><span class=""></span></span></span></span></span></span><span class="mord">/</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.78477em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mopen">[</span><span class="mop op-symbol small-op" style="position: relative; top: -0.000005em;">∑</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -2.44134em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.394772em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mopen">(</span><span class="mop op-symbol small-op" style="position: relative; top: -0.000005em;">∑</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord">/</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mclose">]</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.962864em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span><span class="" style="top: -0.657641em;"><span class="pstrut" style="height: 3.83611em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel"><span class="mop op-limits"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 1.19231em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class=""><span class="mop">∼</span></span></span><span class="" style="top: -3.61398em; margin-left: 0em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathcal mtight">L</span></span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.317314em;"><span class="" style="top: -2.357em; margin-left: -0.08125em; margin-right: 0.0714286em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.143em;"><span class=""></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.864108em;"><span class="" style="top: -2.428em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.447em;"><span class=""></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 3.92547em;"><span class=""></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<h3><a id="45__105"></a>4.5 均衡的不完全随机区组设计</h3>
+<h4><a id="451__106"></a>4.5.1 数据类型</h4>
+<p>重要参数<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        （
+       
+       
+        k
+       
+       
+        ,
+       
+       
+        b
+       
+       
+        ,
+       
+       
+        r
+       
+       
+        ,
+       
+       
+        t
+       
+       
+        ,
+       
+       
+        λ
+       
+       
+        ）
+       
+      
+      
+       （k,b,r,t,\lambda）
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord cjk_fallback">（</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault">b</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault">t</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault">λ</span><span class="mord cjk_fallback">）</span></span></span></span></span>表示 <strong>（处理数，区组数，同一处理出现的区组数，区组样本量&lt;即区组下的处理数&gt;，每两个处理在同一区组中的相遇次数）</strong></p>
+<p>参数性质</p>
+<ul><li><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         k
+        
+        
+         r
+        
+        
+         =
+        
+        
+         b
+        
+        
+         t
+        
+       
+       
+        kr=bt
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.69444em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.69444em; vertical-align: 0em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault">t</span></span></span></span></span></li><li><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         λ
+        
+        
+         (
+        
+        
+         k
+        
+        
+         −
+        
+        
+         1
+        
+        
+         )
+        
+        
+         =
+        
+        
+         r
+        
+        
+         (
+        
+        
+         t
+        
+        
+         −
+        
+        
+         1
+        
+        
+         )
+        
+       
+       
+        \lambda(k-1)=r(t-1)
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathdefault">λ</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span></li><li><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         b
+        
+        
+         ⩾
+        
+        
+         r
+        
+       
+       
+        b\geqslant r
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.83111em; vertical-align: -0.13667em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel amsrm">⩾</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span></span></span></span></span>或<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         k
+        
+        
+         &gt;
+        
+        
+         t
+        
+       
+       
+        k&gt;t
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.73354em; vertical-align: -0.0391em;"></span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.61508em; vertical-align: 0em;"></span><span class="mord mathdefault">t</span></span></span></span></span></li></ul>
+<table><thead><tr><th></th><th>区组1</th><th>区组2</th><th>区组3</th><th>区组4</th><th><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             .
+            
+            
+             j
+            
+           
+          
+         
+         
+          n_{.j}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.716668em; vertical-align: -0.286108em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span></span></span></th></tr></thead><tbody><tr><td>处理1</td><td>73(1)</td><td>74(1)</td><td></td><td>71(1)</td><td>3</td></tr><tr><td>处理2</td><td></td><td>75(2.5)</td><td>67(1)</td><td>72(2)</td><td>5.5</td></tr><tr><td>处理3</td><td>74(2)</td><td>75(2.5)</td><td>68(2)</td><td></td><td>6.5</td></tr><tr><td>处理4</td><td>75(3)</td><td></td><td>72(3)</td><td>75(3)</td><td>9</td></tr></tbody></table>
+<p><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        （
+       
+       
+        k
+       
+       
+        ,
+       
+       
+        b
+       
+       
+        ,
+       
+       
+        r
+       
+       
+        ,
+       
+       
+        t
+       
+       
+        ,
+       
+       
+        λ
+       
+       
+        ）
+       
+       
+        =
+       
+       
+        （
+       
+       
+        4
+       
+       
+        ,
+       
+       
+        4
+       
+       
+        ,
+       
+       
+        3
+       
+       
+        ,
+       
+       
+        3
+       
+       
+        ,
+       
+       
+        2
+       
+       
+        ）
+       
+      
+      
+       （k,b,r,t,\lambda）=（4,4,3,3,2）
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord cjk_fallback">（</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault">b</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault">t</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault">λ</span><span class="mord cjk_fallback">）</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.83888em; vertical-align: -0.19444em;"></span><span class="mord cjk_fallback">（</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">2</span><span class="mord cjk_fallback">）</span></span></span></span></span></p>
+<h4><a id="452_Durbin__124"></a>4.5.2 Durbin 不完全区组分析法</h4>
+<p>在均衡设计<code>BIB</code>下使用。</p>
+<p>需要先计算每一个处理的秩和<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         R
+        
+        
+         
+          i
+         
+         
+          .
+         
+        
+       
+       
+        =
+       
+       
+        
+         ∑
+        
+        
+         
+          j
+         
+         
+          =
+         
+         
+          1
+         
+        
+        
+         k
+        
+       
+       
+        
+         R
+        
+        
+         
+          i
+         
+         
+          j
+         
+        
+       
+      
+      
+       R_{i.}=\sum_{j=1}^kR_{ij}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: -0.00773em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 1.42483em; vertical-align: -0.435818em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position: relative; top: -0.000005em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.989008em;"><span class="" style="top: -2.40029em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span class="" style="top: -3.2029em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.435818em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: -0.00773em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span></span></span><br/> <span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          
+           
+            D
+           
+          
+         
+         
+          
+           
+            
+            
+             =
+            
+            
+             
+              
+               12
+              
+              
+               (
+              
+              
+               k
+              
+              
+               −
+              
+              
+               1
+              
+              
+               )
+              
+             
+             
+              
+               r
+              
+              
+               k
+              
+              
+               (
+              
+              
+               
+                t
+               
+               
+                2
+               
+              
+              
+               −
+              
+              
+               1
+              
+              
+               )
+              
+             
+            
+            
+             
+              ∑
+             
+             
+              
+               i
+              
+              
+               =
+              
+              
+               1
+              
+             
+             
+              k
+             
+            
+            
+             [
+            
+            
+             
+              R
+             
+             
+              
+               i
+              
+              
+               .
+              
+             
+            
+            
+             −
+            
+            
+             
+              
+               r
+              
+              
+               (
+              
+              
+               t
+              
+              
+               +
+              
+              
+               1
+              
+              
+               )
+              
+             
+             
+              2
+             
+            
+            
+             
+              ]
+             
+             
+              2
+             
+            
+           
+          
+         
+        
+        
+         
+          
+           
+          
+         
+         
+          
+           
+            
+            
+             =
+            
+            
+             
+              
+               12
+              
+              
+               (
+              
+              
+               k
+              
+              
+               −
+              
+              
+               1
+              
+              
+               )
+              
+             
+             
+              
+               r
+              
+              
+               k
+              
+              
+               (
+              
+              
+               
+                t
+               
+               
+                2
+               
+              
+              
+               −
+              
+              
+               1
+              
+              
+               )
+              
+             
+            
+            
+             
+              ∑
+             
+             
+              
+               i
+              
+              
+               =
+              
+              
+               1
+              
+             
+             
+              k
+             
+            
+            
+             
+              R
+             
+             
+              
+               i
+              
+              
+               .
+              
+             
+            
+            
+             −
+            
+            
+             
+              
+               3
+              
+              
+               r
+              
+              
+               (
+              
+              
+               k
+              
+              
+               −
+              
+              
+               1
+              
+              
+               )
+              
+              
+               (
+              
+              
+               t
+              
+              
+               +
+              
+              
+               1
+              
+              
+               )
+              
+             
+             
+              
+               t
+              
+              
+               −
+              
+              
+               1
+              
+             
+            
+           
+          
+         
+        
+       
+       
+         \begin{aligned} D&amp;=\frac{12(k-1)}{rk(t^2-1)}\sum_{i=1}^k[R_{i.}-\frac{r(t+1)}{2}]^2 \\ &amp;=\frac{12(k-1)}{rk(t^2-1)}\sum_{i=1}^k R_{i.}-\frac{3r(k-1)(t+1)}{t-1} \end{aligned} 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 6.82756em; vertical-align: -3.16378em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 3.66378em;"><span class="" style="top: -5.66378em;"><span class="pstrut" style="height: 3.83611em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.02778em;">D</span></span></span><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.83611em;"></span><span class="mord"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 3.16378em;"><span class=""></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 3.66378em;"><span class="" style="top: -5.66378em;"><span class="pstrut" style="height: 3.83611em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.427em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.740108em;"><span class="" style="top: -2.989em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">1</span><span class="mord">2</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.936em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.83611em;"><span class="" style="top: -1.87233em; margin-left: 0em;"><span class="pstrut" style="height: 3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span class="" style="top: -3.05001em;"><span class="pstrut" style="height: 3.05em;"></span><span class=""><span class="mop op-symbol large-op">∑</span></span></span><span class="" style="top: -4.30001em; margin-left: 0em;"><span class="pstrut" style="height: 3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.27767em;"><span class=""></span></span></span></span></span><span class="mopen">[</span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: -0.00773em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.427em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">2</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.686em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose"><span class="mclose">]</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.864108em;"><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.83611em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.427em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.740108em;"><span class="" style="top: -2.989em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">1</span><span class="mord">2</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.936em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.83611em;"><span class="" style="top: -1.87233em; margin-left: 0em;"><span class="pstrut" style="height: 3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span class="" style="top: -3.05001em;"><span class="pstrut" style="height: 3.05em;"></span><span class=""><span class="mop op-symbol large-op">∑</span></span></span><span class="" style="top: -4.30001em; margin-left: 0em;"><span class="pstrut" style="height: 3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.27767em;"><span class=""></span></span></span></span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: -0.00773em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.427em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault">t</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord">1</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">3</span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.76933em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 3.16378em;"><span class=""></span></span></span></span></span></span></span></span></span></span></span></span><br/> 大样本下<code>Durbin</code>统计量<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        D
+       
+       
+        ∼
+       
+       
+        
+         χ
+        
+        
+         
+          (
+         
+         
+          k
+         
+         
+          −
+         
+         
+          1
+         
+         
+          )
+         
+        
+        
+         2
+        
+       
+      
+      
+       D \sim \chi^2_{(k-1)}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">D</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">∼</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 1.31111em; vertical-align: -0.497em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -2.378em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.497em;"><span class=""></span></span></span></span></span></span></span></span></span></span>，小样本近似不精确。</p>
+<p><strong>有结数据</strong><br/> 实践表明，值要结的长度不大，结统计量对<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        D
+       
+      
+      
+       D
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">D</span></span></span></span></span>统计量影响不大</p>
+</div>
+<link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-0291849095.css" rel="stylesheet"/>
+<link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-e504d6a974.css" rel="stylesheet"/>
+</div>
+</article>
+
+</div>
+</div>
+<script src="https://g.csdnimg.cn/lib/cboxEditor/1.1.6/embed-editor.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://g.csdnimg.cn/lib/cboxEditor/1.1.6/embed-editor.min.css">
+</body>
+</html>

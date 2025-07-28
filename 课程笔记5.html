@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="referrer" content="no-referrer">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link href="https://g.csdnimg.cn/static/logo/favicon32.ico" rel="shortcut icon" type="image/x-icon"/>
+    <title>非参数统计课程笔记5📒</title>
+    <link rel="stylesheet" type="text/css" href="https://csdnimg.cn/public/sandalstrap/1.4/css/sandalstrap.min.css">
+    <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/kdoc_html_views-1a98987dfd.css" rel="stylesheet">
+    <link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-704d5b9767.css" rel="stylesheet">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview {
+            display: none
+        }
+
+        :root {
+            --warning-red: #ff0000;
+        }
+
+        .dxn_tip {
+            color: var(--warning-red);
+            animation: blink 1.5s ease-in-out infinite;
+            text-align: center;
+            padding: 15px 20px;
+            margin: 20px 0;
+            background: rgba(255, 0, 0, 0.08);
+            border-radius: 4px;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                max-width: 100%;
+                padding: 10px; /* 可选：减少移动端的内边距 */
+            }
+
+            .container img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="blog-content-box">
+<div class="article-header-box">
+<div class="article-header">
+<div class="article-title-box">
+<h1 class="title-article" id="articleContentId">【非参数统计05】分类数据的关联分析：列联表、卡方独立性齐性、Fisher精确性、Mantel-Haenszel检验、关联规则、Ridit检验法、对数线性模型</h1>
+</div>
+<div class="article-info-box">
+
+<div class="article-bar-top-box">
+
+
+</div>
+
+<div class="slide-content-box">
+<div class="article-copyright">
+
+<div class="article-source-link">
+                            原文链接：<a href="https://blog.csdn.net/weixin_45632492/article/details/111657143" target="_blank">https://blog.csdn.net/weixin_45632492/article/details/111657143</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="" id="blogHuaweiyunAdvert"></div>
+
+<article class="baidu_pl">
+<div class="article_content clearfix" id="article_content">
+
+
+<div class="markdown_views prism-atom-one-dark" id="content_views">
+<svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+<path d="M5,0 0,2.5 5,5z" id="raphael-marker-block" stroke-linecap="round" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+</svg>
+<p></p>
+<div class="toc">
+<h4>目录导引</h4>
+<ul><li><a href="#5__3">5 分类数据的关联分析</a></li><li><ul><li><a href="#51__4">5.1 分类变量独立性检验</a></li><li><ul><li><a href="#511_rtimes_s_5">5.1.1 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+         
+          
+           
+            
+             r
+            
+            
+             ×
+            
+            
+             s
+            
+           
+           
+            r\times s
+           
+          
+         </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault">s</span></span></span></span></span>列联表</a></li><li><a href="#512_chi2_7">5.1.2 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+         
+          
+           
+            
+             
+              χ
+             
+             
+              2
+             
+            
+           
+           
+            \chi^2
+           
+          
+         </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.00855em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>独立性检验</a></li><li><a href="#513_chi2_17">5.1.3 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+         
+          
+           
+            
+             
+              χ
+             
+             
+              2
+             
+            
+           
+           
+            \chi^2
+           
+          
+         </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.00855em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>齐性检验</a></li><li><a href="#514__Fisher__27">5.1.4 Fisher 精确性检验</a></li><li><ul><li><a href="#5141_2_28">5.1.4.1 2维小列联表</a></li><li><a href="#5142__41">5.1.4.2 一般列联表</a></li></ul>
+</li><li><a href="#515__McNemar__43">5.1.5 二值变量的 McNemar 检验</a></li></ul>
+</li><li><a href="#52__64">5.2 变量关联分析扩展</a></li><li><ul><li><a href="#521_MantelHaenszel__65">5.2.1 Mantel-Haenszel 检验</a></li><li><a href="#522__90">5.2.2 关联规则</a></li><li><a href="#5221__92">5.2.2.1 基本概念</a></li><li><a href="#5222_Apriori__93">5.2.2.2 Apriori 算法</a></li></ul>
+</li><li><a href="#53_Ridit__94">5.3 Ridit 检验法</a></li><li><a href="#54__95">5.4 对数线性模型</a></li><li><ul><li><a href="#541__97">5.4.1 基本概念</a></li><li><a href="#542__98">5.4.2 设计矩阵</a></li><li><a href="#543__99">5.4.3 估计和检验</a></li><li><a href="#544__100">5.4.4 高维对数线性模型和独立性</a></li></ul>
+</li><li><a href="#_102">问题</a></li></ul>
+</li></ul>
+</div>
+<br/> 这一个系列的笔记和整理希望可以帮助到正在学习非参数统计的同学。我会慢慢更新各个章节的内容。
+<p></p>
+<h2><a id="5__3"></a>5 分类数据的关联分析</h2>
+<h3><a id="51__4"></a>5.1 分类变量独立性检验</h3>
+<h4><a id="511_rtimes_s_5"></a>5.1.1 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        r
+       
+       
+        ×
+       
+       
+        s
+       
+      
+      
+       r\times s
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault">s</span></span></span></span></span>列联表</h4>
+<h4><a id="512_chi2_7"></a>5.1.2 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         χ
+        
+        
+         2
+        
+       
+      
+      
+       \chi^2
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.00855em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>独立性检验</h4>
+<p><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         χ
+        
+        
+         2
+        
+       
+      
+      
+       \chi^2
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.00855em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>独立性是一种<code>一般性关联</code>,即</p>
+<blockquote>
+<p>能得出<strong>行变量与列变量存在关联</strong>，但是没有指出更细微的相关或其他特殊关系。</p>
+</blockquote>
+<p><code>Pearson</code><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         χ
+        
+        
+         2
+        
+       
+      
+      
+       \chi^2
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.00855em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>检验对于列联表有一些要求</p>
+<ul><li>测量不同类之间是否独立</li><li>频数过小的格点不能太多</li><li>行列数至少一个超过2</li><li>单元格中期望频数低于5的单元数目不能超过总单元格的<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         20
+        
+        
+         %
+        
+       
+       
+        20\%
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.80556em; vertical-align: -0.05556em;"></span><span class="mord">2</span><span class="mord">0</span><span class="mord">%</span></span></span></span></span></li><li>不能匀速存在单元格期望频数小于1</li></ul>
+<h4><a id="513_chi2_17"></a>5.1.3 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         χ
+        
+        
+         2
+        
+       
+      
+      
+       \chi^2
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.00855em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>齐性检验</h4>
+<p>区别于<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         χ
+        
+        
+         2
+        
+       
+      
+      
+       \chi^2
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.00855em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>独立性，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         χ
+        
+        
+         2
+        
+       
+      
+      
+       \chi^2
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.00855em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>齐性关注的问题是</p>
+<blockquote>
+<p><strong>行</strong>表示不同的<strong>区组</strong>，<strong>列</strong>表是我们感兴趣的<strong>问题</strong>，我们希望回答列变量比例分布在各个区组之间是否一致。</p>
+</blockquote>
+<p>我们的数据依然是<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        r
+       
+       
+        ×
+       
+       
+        s
+       
+      
+      
+       r\times s
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault">s</span></span></span></span></span>的列联表，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        r
+       
+      
+      
+       r
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span></span></span></span></span>个问题，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        s
+       
+      
+      
+       s
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault">s</span></span></span></span></span>个区组。<br/> <strong>检验问题</strong><br/> <span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         ∀
+        
+        
+         i
+        
+        
+         =
+        
+        
+         1
+        
+        
+         ,
+        
+        
+         2
+        
+        
+         ,
+        
+        
+         .
+        
+        
+         .
+        
+        
+         .
+        
+        
+         ,
+        
+        
+         r
+        
+        
+        
+         
+          H
+         
+         
+          0
+         
+        
+        
+         :
+        
+        
+         
+          p
+         
+         
+          
+           i
+          
+          
+           1
+          
+         
+        
+        
+         =
+        
+        
+         .
+        
+        
+         .
+        
+        
+         .
+        
+        
+         =
+        
+        
+         
+          p
+         
+         
+          
+           i
+          
+          
+           s
+          
+         
+        
+        
+         =
+        
+        
+         
+          p
+         
+         
+          
+           i
+          
+          
+           .
+          
+         
+        
+        
+         ↔
+        
+        
+         
+          H
+         
+         
+          1
+         
+        
+        
+         :
+        
+        
+         等
+        
+        
+         式
+        
+        
+         不
+        
+        
+         全
+        
+        
+         成
+        
+        
+         立
+        
+       
+       
+         \forall i=1,2,...,r \quad H_0:p_{i1}=...=p_{is}=p_{i.} \leftrightarrow H_1: 等式不全成立 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.69444em; vertical-align: 0em;"></span><span class="mord">∀</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.87777em; vertical-align: -0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mspace" style="margin-right: 1em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.36687em; vertical-align: 0em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight">s</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">↔</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0em; vertical-align: 0em;"></span><span class="mord cjk_fallback">等</span><span class="mord cjk_fallback">式</span><span class="mord cjk_fallback">不</span><span class="mord cjk_fallback">全</span><span class="mord cjk_fallback">成</span><span class="mord cjk_fallback">立</span></span></span></span></span></span><br/> 检验和<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         χ
+        
+        
+         2
+        
+       
+      
+      
+       \chi^2
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.00855em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>独立性完全一样。</p>
+<h4><a id="514__Fisher__27"></a>5.1.4 Fisher 精确性检验</h4>
+<h5><a id="5141_2_28"></a>5.1.4.1 2维小列联表</h5>
+<p>如果<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        2
+       
+       
+        ×
+       
+       
+        2
+       
+      
+      
+       2\times 2
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.72777em; vertical-align: -0.08333em;"></span><span class="mord">2</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.64444em; vertical-align: 0em;"></span><span class="mord">2</span></span></span></span></span>的列联表有出现有一个格子的期望数小于5，因为单格占比<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        25
+       
+       
+        %
+       
+      
+      
+       25\%
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.80556em; vertical-align: -0.05556em;"></span><span class="mord">2</span><span class="mord">5</span><span class="mord">%</span></span></span></span></span>，就会引起<code>Pearson</code><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         χ
+        
+        
+         2
+        
+       
+      
+      
+       \chi^2
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.00855em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span>的警告，此时应该用<code>Fisher精确性检验</code>。</p>
+<table><thead><tr><th></th><th><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            B
+           
+           
+            1
+           
+          
+         
+         
+          B_1
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.05017em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></th><th><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            B
+           
+           
+            2
+           
+          
+         
+         
+          B_2
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.05017em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></th><th>sum</th></tr></thead><tbody><tr><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            A
+           
+           
+            1
+           
+          
+         
+         
+          A_1
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            11
+           
+          
+         
+         
+          n_{11}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            12
+           
+          
+         
+         
+          n_{12}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            1.
+           
+          
+         
+         
+          n_{1.}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td></tr><tr><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            A
+           
+           
+            2
+           
+          
+         
+         
+          A_2
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            21
+           
+          
+         
+         
+          n_{21}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            22
+           
+          
+         
+         
+          n_{22}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            2.
+           
+          
+         
+         
+          n_{2.}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td></tr><tr><td>sum</td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             .
+            
+            
+             1
+            
+           
+          
+         
+         
+          n_{.1}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             .
+            
+            
+             2
+            
+           
+          
+         
+         
+          n_{.2}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             .
+            
+            
+             .
+            
+           
+          
+         
+         
+          n_{..}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td></tr></tbody></table>
+<p>关注<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         n
+        
+        
+         11
+        
+       
+      
+      
+       n_{11}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span>的情况就足以反映全局，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         n
+        
+        
+         11
+        
+       
+      
+      
+       n_{11}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span>服从超几何分布<br/> <span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         P
+        
+        
+         (
+        
+        
+         )
+        
+       
+       
+         P() 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathdefault" style="margin-right: 0.13889em;">P</span><span class="mopen">(</span><span class="mclose">)</span></span></span></span></span></span></p>
+<h5><a id="5142__41"></a>5.1.4.2 一般列联表</h5>
+<p><strong>多元超几何分布</strong></p>
+<h4><a id="515__McNemar__43"></a>5.1.5 二值变量的 McNemar 检验</h4>
+<p>上一章在<strong>完全区组设计</strong>也有一个服务于二值分类变量的检验<code>Cochran</code>，这节是关于二值变量独立性的<code>McNemar</code>。</p>
+<table><thead><tr><th></th><th>0</th><th>1</th><th>sum</th></tr></thead><tbody><tr><td>0</td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            00
+           
+          
+         
+         
+          n_{00}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            01
+           
+          
+         
+         
+          n_{01}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            1.
+           
+          
+         
+         
+          n_{1.}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td></tr><tr><td>1</td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            10
+           
+          
+         
+         
+          n_{10}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            11
+           
+          
+         
+         
+          n_{11}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            2.
+           
+          
+         
+         
+          n_{2.}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td></tr><tr><td>sum</td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             .
+            
+            
+             1
+            
+           
+          
+         
+         
+          n_{.1}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             .
+            
+            
+             2
+            
+           
+          
+         
+         
+          n_{.2}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td><td><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+       
+        
+         
+          
+           
+            n
+           
+           
+            
+             .
+            
+            
+             .
+            
+           
+          
+         
+         
+          n_{..}
+         
+        
+       </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">.</span><span class="mord mtight">.</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span></td></tr></tbody></table>
+<p><code>McNemar</code>用于配对计数数据的分析，分析配对数据中<strong>控制组</strong>和<strong>处理组</strong>的频率或比率是否有差异，对于比较同一批观测对象用药前后的结果有无差异时非常有效。</p>
+<p><code>McNemar</code>关注非主对角线单元格上的信息，行变量与列变量两者之间不一致的评价信息，比较两个评价者间各自存在什么倾向性。</p>
+<p><span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          H
+         
+         
+          0
+         
+        
+        
+         :
+        
+        
+         
+          p
+         
+         
+          01
+         
+        
+        
+         −
+        
+        
+         
+          p
+         
+         
+          10
+         
+        
+        
+         =
+        
+        
+         0
+        
+        
+         ↔
+        
+        
+         
+          H
+         
+         
+          1
+         
+        
+        
+         :
+        
+        
+         
+          p
+         
+         
+          01
+         
+        
+        
+         −
+        
+        
+         
+          p
+         
+         
+          10
+         
+        
+        
+         ≠
+        
+        
+         0
+        
+       
+       
+         H_0: p_{01}-p_{10}=0 \leftrightarrow H_1: p_{01}-p_{10}\neq 0 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.77777em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.64444em; vertical-align: 0em;"></span><span class="mord">0</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">↔</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.77777em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel"><span class="mrel"><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.69444em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="rlap"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="inner"><span class="mrel"></span></span><span class="fix"></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.19444em;"><span class=""></span></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.64444em; vertical-align: 0em;"></span><span class="mord">0</span></span></span></span></span></span><br/> 以<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         
+          n
+         
+         
+          01
+         
+        
+        
+         n
+        
+       
+       
+        −
+       
+       
+        
+         
+          n
+         
+         
+          10
+         
+        
+        
+         n
+        
+       
+      
+      
+       \frac{n_{01}}{n}-\frac{n_{10}}{n}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.05649em; vertical-align: -0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.711492em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.4101em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.317314em;"><span class="" style="top: -2.357em; margin-left: 0em; margin-right: 0.0714286em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.143em;"><span class=""></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 1.05649em; vertical-align: -0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.711492em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.4101em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.317314em;"><span class="" style="top: -2.357em; margin-left: 0em; margin-right: 0.0714286em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.143em;"><span class=""></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>做<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         p
+        
+        
+         01
+        
+       
+       
+        −
+       
+       
+        
+         p
+        
+        
+         10
+        
+       
+      
+      
+       p_{01}-p_{10}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.77777em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.625em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span>的估计，使用<code>Wald</code>统计量得到<br/> <span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          χ
+         
+         
+          2
+         
+        
+        
+         =
+        
+        
+         
+          
+           (
+          
+          
+           
+            n
+           
+           
+            01
+           
+          
+          
+           −
+          
+          
+           
+            n
+           
+           
+            10
+           
+          
+          
+           
+            )
+           
+           
+            2
+           
+          
+         
+         
+          
+           
+            n
+           
+           
+            01
+           
+          
+          
+           +
+          
+          
+           
+            n
+           
+           
+            10
+           
+          
+         
+        
+        
+         
+          
+           ∼
+          
+         
+         
+          
+           H
+          
+          
+           0
+          
+         
+        
+        
+         
+          χ
+         
+         
+          2
+         
+        
+        
+         (
+        
+        
+         1
+        
+        
+         )
+        
+       
+       
+         \chi^2=\frac{(n_{01}-n_{10})^2}{n_{01}+n_{10}} \stackrel{H_0}{\sim} \chi^2(1) 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.05855em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.864108em;"><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 2.32711em; vertical-align: -0.836em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.49111em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.836em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel"><span class="mop op-limits"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 1.1563em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class=""><span class="mop">∼</span></span></span><span class="" style="top: -3.57797em; margin-left: 0em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.317314em;"><span class="" style="top: -2.357em; margin-left: -0.08125em; margin-right: 0.0714286em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.143em;"><span class=""></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 1.11411em; vertical-align: -0.25em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.864108em;"><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span></span><br/> <strong>不适用情景</strong><br/> 一致性较好的大样本数据</p>
+<h3><a id="52__64"></a>5.2 变量关联分析扩展</h3>
+<h4><a id="521_MantelHaenszel__65"></a>5.2.1 Mantel-Haenszel 检验</h4>
+<p>很多检验涉及到<strong>分层结构数据</strong>，这是什么呢？</p>
+<p>在我们讨论<code>5.1</code>节的内容的时候，可能数据只是一个截块，其单一 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        r
+       
+       
+        ×
+       
+       
+        s
+       
+      
+      
+       r\times s
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault">s</span></span></span></span></span> 表只是背后另一个变量取特值时候呈现的。这一节<code>M-H</code>考虑了背后的分类变量，其表现形式是多张 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        r
+       
+       
+        ×
+       
+       
+        s
+       
+      
+      
+       r\times s
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault">s</span></span></span></span></span> 的列联表，比如按照不同医院进行分层。</p>
+<p><strong>以二维表格为例</strong><br/> 令分层结构<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        h
+       
+       
+        =
+       
+       
+        1
+       
+       
+        ,
+       
+       
+        2
+       
+       
+        ,
+       
+       
+        .
+       
+       
+        .
+       
+       
+        .
+       
+       
+        ,
+       
+       
+        k
+       
+      
+      
+       h=1,2,...,k
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.69444em; vertical-align: 0em;"></span><span class="mord mathdefault">h</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault" style="margin-right: 0.03148em;">k</span></span></span></span></span>，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         n
+        
+        
+         
+          h
+         
+         
+          i
+         
+         
+          j
+         
+        
+       
+      
+      
+       n_{hij}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.716668em; vertical-align: -0.286108em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span></span></span>表示第<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        h
+       
+      
+      
+       h
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.69444em; vertical-align: 0em;"></span><span class="mord mathdefault">h</span></span></span></span></span>层四格列联表的观测频数<br/> 频数和 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         n
+        
+        
+         h
+        
+       
+       
+        =
+       
+       
+        
+         ∑
+        
+        
+         i
+        
+       
+       
+        
+         ∑
+        
+        
+         j
+        
+       
+       
+        
+         n
+        
+        
+         
+          h
+         
+         
+          i
+         
+         
+          j
+         
+        
+       
+       
+        ,
+       
+       
+        n
+       
+       
+        =
+       
+       
+        
+         ∑
+        
+        
+         
+          h
+         
+         
+          =
+         
+         
+          1
+         
+        
+        
+         k
+        
+       
+       
+        
+         n
+        
+        
+         h
+        
+       
+      
+      
+       n_h=\sum_{i}\sum_{j} n_{hij},n=\sum_{h=1}^k n_h
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 1.18582em; vertical-align: -0.435818em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position: relative; top: -0.000005em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.161954em;"><span class="" style="top: -2.40029em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.29971em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position: relative; top: -0.000005em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.161954em;"><span class="" style="top: -2.40029em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.435818em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 1.28872em; vertical-align: -0.29971em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position: relative; top: -0.000005em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.989008em;"><span class="" style="top: -2.40029em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">h</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span class="" style="top: -3.2029em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.29971em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span><br/> <span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          H
+         
+         
+          0
+         
+        
+        
+         :
+        
+        
+         试
+        
+        
+         验
+        
+        
+         组
+        
+        
+         和
+        
+        
+         对
+        
+        
+         照
+        
+        
+         组
+        
+        
+         在
+        
+        
+         治
+        
+        
+         疗
+        
+        
+         效
+        
+        
+         果
+        
+        
+         上
+        
+        
+         没
+        
+        
+         有
+        
+        
+         差
+        
+        
+         异
+        
+        
+        
+         
+          H
+         
+         
+          1
+         
+        
+        
+         :
+        
+        
+         试
+        
+        
+         验
+        
+        
+         组
+        
+        
+         和
+        
+        
+         对
+        
+        
+         照
+        
+        
+         组
+        
+        
+         在
+        
+        
+         治
+        
+        
+         疗
+        
+        
+         效
+        
+        
+         果
+        
+        
+         上
+        
+        
+         存
+        
+        
+         在
+        
+        
+         差
+        
+        
+         异
+        
+       
+       
+         H_0:试验组和对照组在治疗效果上没有差异 \\ H_1:试验组和对照组在治疗效果上存在差异 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0em; vertical-align: 0em;"></span><span class="mord cjk_fallback">试</span><span class="mord cjk_fallback">验</span><span class="mord cjk_fallback">组</span><span class="mord cjk_fallback">和</span><span class="mord cjk_fallback">对</span><span class="mord cjk_fallback">照</span><span class="mord cjk_fallback">组</span><span class="mord cjk_fallback">在</span><span class="mord cjk_fallback">治</span><span class="mord cjk_fallback">疗</span><span class="mord cjk_fallback">效</span><span class="mord cjk_fallback">果</span><span class="mord cjk_fallback">上</span><span class="mord cjk_fallback">没</span><span class="mord cjk_fallback">有</span><span class="mord cjk_fallback">差</span><span class="mord cjk_fallback">异</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0em; vertical-align: 0em;"></span><span class="mord cjk_fallback">试</span><span class="mord cjk_fallback">验</span><span class="mord cjk_fallback">组</span><span class="mord cjk_fallback">和</span><span class="mord cjk_fallback">对</span><span class="mord cjk_fallback">照</span><span class="mord cjk_fallback">组</span><span class="mord cjk_fallback">在</span><span class="mord cjk_fallback">治</span><span class="mord cjk_fallback">疗</span><span class="mord cjk_fallback">效</span><span class="mord cjk_fallback">果</span><span class="mord cjk_fallback">上</span><span class="mord cjk_fallback">存</span><span class="mord cjk_fallback">在</span><span class="mord cjk_fallback">差</span><span class="mord cjk_fallback">异</span></span></span></span></span></span><br/> 值得一提的是，医学实验对照组常用安慰剂</p>
+<p><strong>检验方法</strong></p>
+<ul><li>假设<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          H
+         
+         
+          0
+         
+        
+       
+       
+        H_0
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.83333em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.301108em;"><span class="" style="top: -2.55em; margin-left: -0.08125em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span>成立，先求出第<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         h
+        
+       
+       
+        h
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.69444em; vertical-align: 0em;"></span><span class="mord mathdefault">h</span></span></span></span></span>层的期望和方差<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         E
+        
+        
+         
+          n
+         
+         
+          
+           h
+          
+          
+           11
+          
+         
+        
+        
+         ,
+        
+        
+         v
+        
+        
+         a
+        
+        
+         r
+        
+        
+         (
+        
+        
+         
+          n
+         
+         
+          
+           h
+          
+          
+           11
+          
+         
+        
+        
+         )
+        
+       
+       
+        En_{h_{11}},var(n_{h_{11}})
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.0001em; vertical-align: -0.2501em;"></span><span class="mord mathdefault" style="margin-right: 0.05764em;">E</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.317314em;"><span class="" style="top: -2.357em; margin-left: 0em; margin-right: 0.0714286em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.143em;"><span class=""></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2501em;"><span class=""></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault" style="margin-right: 0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.317314em;"><span class="" style="top: -2.357em; margin-left: 0em; margin-right: 0.0714286em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.143em;"><span class=""></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2501em;"><span class=""></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></li><li>计算<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          Q
+         
+         
+          
+           M
+          
+          
+           H
+          
+         
+        
+       
+       
+        Q_{MH}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.87777em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault">Q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.328331em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.10903em;">M</span><span class="mord mathdefault mtight" style="margin-right: 0.08125em;">H</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span>统计量，近似服从<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          χ
+         
+         
+          2
+         
+        
+        
+         (
+        
+        
+         1
+        
+        
+         )
+        
+       
+       
+        \chi^2(1)
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.06411em; vertical-align: -0.25em;"></span><span class="mord"><span class="mord mathdefault">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span></li></ul>
+<p><span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          
+           
+            
+             E
+            
+            
+             
+              n
+             
+             
+              
+               h
+              
+              
+               11
+              
+             
+            
+           
+          
+         
+         
+          
+           
+            
+            
+             =
+            
+           
+          
+         
+        
+        
+         
+          
+           
+            
+             v
+            
+            
+             a
+            
+            
+             r
+            
+            
+             (
+            
+            
+             
+              n
+             
+             
+              
+               h
+              
+              
+               11
+              
+             
+            
+            
+             )
+            
+           
+          
+         
+         
+          
+           
+            
+            
+             =
+            
+           
+          
+         
+        
+        
+         
+          
+           
+            
+             Q
+            
+            
+             
+              M
+             
+             
+              H
+             
+            
+           
+          
+         
+         
+          
+           
+            
+            
+             =
+            
+           
+          
+         
+        
+       
+       
+         \begin{aligned} En_{h_{11}} &amp;= \\ var(n_{h_{11}}) &amp;= \\ Q_{MH} &amp;= \\ \end{aligned} 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 4.5em; vertical-align: -2em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.5em;"><span class="" style="top: -4.66em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.05764em;">E</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.317314em;"><span class="" style="top: -2.357em; margin-left: 0em; margin-right: 0.0714286em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.143em;"><span class=""></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2501em;"><span class=""></span></span></span></span></span></span></span></span><span class="" style="top: -3.16em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right: 0.02778em;">r</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.317314em;"><span class="" style="top: -2.357em; margin-left: 0em; margin-right: 0.0714286em;"><span class="pstrut" style="height: 2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.143em;"><span class=""></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2501em;"><span class=""></span></span></span></span></span></span><span class="mclose">)</span></span></span><span class="" style="top: -1.66em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">Q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.328331em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.10903em;">M</span><span class="mord mathdefault mtight" style="margin-right: 0.08125em;">H</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 2em;"><span class=""></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.5em;"><span class="" style="top: -4.66em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span></span></span><span class="" style="top: -3.16em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span></span></span><span class="" style="top: -1.66em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 2em;"><span class=""></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<h4><a id="522__90"></a>5.2.2 关联规则</h4>
+<p>日后更新</p>
+<h4><a id="5221__92"></a>5.2.2.1 基本概念</h4>
+<h4><a id="5222_Apriori__93"></a>5.2.2.2 Apriori 算法</h4>
+<h3><a id="53_Ridit__94"></a>5.3 Ridit 检验法</h3>
+<h3><a id="54__95"></a>5.4 对数线性模型</h3>
+<p>日后更新</p>
+<h4><a id="541__97"></a>5.4.1 基本概念</h4>
+<h4><a id="542__98"></a>5.4.2 设计矩阵</h4>
+<h4><a id="543__99"></a>5.4.3 估计和检验</h4>
+<h4><a id="544__100"></a>5.4.4 高维对数线性模型和独立性</h4>
+<h3><a id="_102"></a>问题</h3>
+<ul><li><code>Wald</code>统计量是什么?</li></ul>
+</div>
+<link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/markdown_views-0291849095.css" rel="stylesheet"/>
+<link href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/style-e504d6a974.css" rel="stylesheet"/>
+</div>
+</article>
+
+</div>
+</div>
+<script src="https://g.csdnimg.cn/lib/cboxEditor/1.1.6/embed-editor.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://g.csdnimg.cn/lib/cboxEditor/1.1.6/embed-editor.min.css">
+</body>
+</html>
